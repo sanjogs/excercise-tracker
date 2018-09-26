@@ -1,12 +1,17 @@
-const express = require('express')
-const app = express()
-const bodyParser = require('body-parser')
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
 
-const cors = require('cors')
-
+const cors = require('cors');
+const dotenv=require('dotenv');
 const apiRoute=require('./app/route/api');
 
 const mongoose = require('mongoose');
+
+dotenv.load();
+
+
+console.log(process.env.MLAB_URI);
 mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost:27017/exercise-track',{useMongoClient:true} );
 mongoose.Promise=global.Promise;
 
