@@ -7,7 +7,7 @@ var Excercise = new Schema({
     userId:Schema.Types.ObjectId,
     description:String,
     duration:Number, 
-    data:Date
+    date:Date
 });
 
 module.exports = mongoose.model('Excercise', Excercise);

@@ -8,10 +8,12 @@ const apiRoute=require('./app/route/api');
 
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost:27017/exercise-track',{useMongoClient:true} );
+mongoose.Promise=global.Promise;
+
 app.use(cors())
 
 app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 
 app.use(express.static('public'))

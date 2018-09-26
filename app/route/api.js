@@ -1,4 +1,6 @@
 var User = require('../models/user');
+var Exercise=require('../models/excercise');
+
 
 var apiRoute = function(app) {
 
@@ -26,8 +28,28 @@ var apiRoute = function(app) {
 
         });
 
-    app.route('/api/excercise/add')
-        .post(function(req, res) {});
+    app.route('/api/exercise/add')
+        .post(function(req, res) {
+          
+            var exercise = new Exercise();
+            exercise.userId=req.body.userId;
+            exercise.description=req.body.description;
+            exercise.duration=req.body.duration;
+            exercise.date=req.body.date || new Date();
+
+            exercise.save(function(err, record){
+                res.json(record);
+            });
+
+        });
+
+    var validateExerciseRequest = function(req,res){
+        //check required fields
+        //userid
+        //descriptpn
+        //duration
+        //
+    }
 }
 
 module.exports = apiRoute;
