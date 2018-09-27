@@ -1,5 +1,5 @@
 var User = require('../models/user');
-var Exercise=require('../models/excercise');
+var Exercise = require('../models/excercise');
 
 
 var apiRoute = function(app) {
@@ -18,32 +18,46 @@ var apiRoute = function(app) {
 
             newUser.username = req.body.username;
 
-            newUser.save(function(err, record) {
+            newUser.save(function(err, doc) {
                 if (err) {
                     res.status(501).send();
                 }
 
-                res.json(record);
+                res.json(doc);
             });
 
         });
 
     app.route('/api/exercise/add')
         .post(function(req, res) {
-          
-            var exercise = new Exercise();
-            exercise.userId=req.body.userId;
-            exercise.description=req.body.description;
-            exercise.duration=req.body.duration;
-            exercise.date=req.body.date || new Date();
+            User.findById(req.body.userId
+            , function(err, userRecord) {
 
-            exercise.save(function(err, record){
-                res.json(record);
-            });
+                if (err) res.status(400).send('user not found');
 
+                var exercise = new Exercise();
+                exercise.userId = req.body.userId;
+                exercise.description = req.body.description;
+                exercise.duration = req.body.duration;
+                exercise.date = req.body.date || new Date();
+
+                exercise.save(function(err, record) {
+                if (err) res.status(400).send('invalid data');
+
+                    res.json({
+                        username: userRecord.username,
+                        _id: userRecord._id,
+                        description: record.description,
+                        duration: record.duration,
+                        date: record.date
+                    });
+
+
+                });
+            })
         });
 
-    var validateExerciseRequest = function(req,res){
+    var validateExerciseRequest = function(req, res) {
         //check required fields
         //userid
         //descriptpn

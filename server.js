@@ -9,19 +9,17 @@ const apiRoute=require('./app/route/api');
 const mongoose = require('mongoose');
 
 dotenv.load();
-
-
-console.log(process.env.MLAB_URI);
-mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost:27017/exercise-track',{useMongoClient:true} );
+//process.env.MLAB_URI ||
+mongoose.connect( 'mongodb://localhost:27017/exercise-track',{useMongoClient:true} );
 mongoose.Promise=global.Promise;
 
-app.use(cors())
+app.use(cors());
 
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 
-app.use(express.static('public'))
+app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
