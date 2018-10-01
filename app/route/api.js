@@ -4,7 +4,7 @@ var Exercise = require('../models/excercise');
 
 var apiRoute = function(app) {
 
-    app.get('/api/exercise/log', function(req, res) {});
+
     app.get('/api/exercise/users', function(req, res) {
         User.find(function(err, result) {
             if (err) res.status(500).send();
@@ -20,10 +20,12 @@ var apiRoute = function(app) {
 
             newUser.save(function(err, doc) {
                 if (err) {
-                    res.status(501).send();
+                    res.status(500).send(err);
                 }
-
-                res.json(doc);
+                else
+                {
+                    res.json(doc);
+                }
             });
 
         });
@@ -51,19 +53,23 @@ var apiRoute = function(app) {
                         duration: record.duration,
                         date: record.date
                     });
-
-
                 });
             })
         });
 
-    var validateExerciseRequest = function(req, res) {
-        //check required fields
-        //userid
-        //descriptpn
-        //duration
-        //
-    }
+        app.get('/api/exercise/log', function(req, res) {
+            var uId=req.query.userId;
+            if (!uId){
+                res.status(400).send('invalid userId');
+            }
+            else
+            {
+                Exercise.find({userId:uId},
+                    function(err,doc){
+                        res.json(doc);
+                });
+            }
+        });
 }
 
 module.exports = apiRoute;

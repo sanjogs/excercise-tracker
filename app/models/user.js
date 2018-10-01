@@ -1,10 +1,14 @@
 'use strict';
 
 var mongoose = require('mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
+
 var Schema = mongoose.Schema;
 
 var User = new Schema({
-    username:String
+    username:{type:String, required: true, unique: true}
 });
 
-module.exports = mongoose.model('User', User);
+var userSchema  = mongoose.model('User', User);
+// userSchema.plugin(uniqueValidator);
+module.exports = userSchema;
