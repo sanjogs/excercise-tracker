@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 
 dotenv.load();
 //process.env.MLAB_URI ||
-mongoose.connect( 'mongodb://localhost:27017/exercise-track',{useMongoClient:true} );
+mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost:27017/exercise-track',{useMongoClient:true} );
 mongoose.Promise=global.Promise;
 
 app.use(cors());
